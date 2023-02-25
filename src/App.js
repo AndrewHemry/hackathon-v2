@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import React, { useState } from 'react'
+import BlogResults from './components/BlogResults';
+import FilterButton from './components/FilterButton';
 import './App.css';
 
-function App() {
+const FILTER_MAP = {
+  Popular: (filterPopularity_vs_Date) => filterPopularity_vs_Date,
+  Date: (filterPopularity_vs_Date) => !filterPopularity_vs_Date
+}
+
+const FILTER_NAMES = Object.keys(FILTER_MAP)
+
+function App(props) {
+
+  const [filter, setFilter] = useState(props.filterPopularity_vs_Date)
+
+  const filterList = FILTER_NAMES.map((name) => (
+    <FilterButton 
+    key={name}
+    name={name}
+    isPressed={name === filter}
+    setFilter={setFilter}
+    />
+  ))
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Blog Results</h1>
+      <div className='filters btn-group'>
+          {/* <FilterButton /> */}
+          {filterList}
+      </div>
+      <BlogResults />
     </div>
   );
 }
