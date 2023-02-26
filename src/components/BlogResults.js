@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import FilterButton from './FilterButton'
-import BlogStructure from './BlogStructure';
-import { nanoid } from 'nanoid' // Need to import this file
-
-// Dipslay the results
-
-// Build the 2 buttons
-
-// Filter logic to display ONE of the results based upon the state
+import ResultsByPopularity from './ResultsByPopularity';
+import ResultsByDate from './ResultsByDate';
 
 class BlogResults extends Component {
     constructor(props) {
@@ -16,10 +10,12 @@ class BlogResults extends Component {
 
         this.state = {
             blogPostsResultsPopular: [],
-            blogPostResultsDate: [],
+            // blogPostResultsDate: [],
             // Add Toggle State - Default to true, which will display Popular - False will filter to Date
             filterPopularity_vs_Date: true
         }
+
+        console.log("My props are:", this.state.blogPostsResultsPopular)
     }
 
     componentDidMount() {
@@ -31,18 +27,17 @@ class BlogResults extends Component {
             console.log("The results are in for popularity:", blogPostsResultsPopular)
         })
 
-        // FOR THE DATE API RESULTS
-        axios.get('http://hn.algolia.com/api/v1/search_by_date?tags=story')
-        .then(res => {
-            const blogPostResultsDate = res.data.hits
-            this.setState({blogPostResultsDate})
-            console.log("The results are in for date:", blogPostResultsDate)
-        })
+        // // FOR THE DATE API RESULTS
+        // axios.get('http://hn.algolia.com/api/v1/search_by_date?tags=story')
+        // .then(res => {
+        //     const blogPostResultsDate = res.data.hits
+        //     this.setState({blogPostResultsDate})
+        //     console.log("The results are in for date:", blogPostResultsDate)
+        // })
     }
 
     componentDidUpdate() {
         console.log("It did update.")
-        console.log("The current state of the filter:", this.state)
     }
 
     render() {
@@ -50,28 +45,19 @@ class BlogResults extends Component {
             <div className='blogresults stack-large'>
                 <ul role="list" className='blogresultslist' aria-labelledby='list-heading'>
                     {this.state.blogPostsResultsPopular.map((blogPostsResult, index) => {
-                        const urlSeparator = " | "
-                        const itemLink = "https://news.ycombinator.com/item?id="
-                        const userLink = "https://news.ycombinator.com/user?id="
-                        return (
-                            <li key={index}>
-                                <div>
-                                    <span><a href={itemLink + blogPostsResult.objectID}>{blogPostsResult.title}</a></span>
-                                    <span><a href={blogPostsResult.url}>({blogPostsResult.url})</a></span>
-                                </div>
-                                <span>
-                                    <a href={itemLink + blogPostsResult.objectID}>{blogPostsResult.points}</a>
-                                    {urlSeparator}
-                                    <a href={userLink + blogPostsResult.author}>{blogPostsResult.author}</a>
-                                    {urlSeparator}
-                                    <a href={itemLink + blogPostsResult.objectID}>{blogPostsResult.created_at}</a>
-                                    {urlSeparator}
-                                    <a href={itemLink + blogPostsResult.objectID}>{blogPostsResult.num_comments}</a>
-                                </span>
+                        return(
+                            <li>
+                                <ResultsByPopularity blogPostsResult={blogPostsResult} />
+                            </li>
+                        )})
+                    }
+                    {/* {this.state.blogPostResultsDate.map((blogPostsResultDate, index) => {
+                        return(
+                            <li>
+                                <ResultsByDate blogPostsResultDate={blogPostsResultDate} />
                             </li>
                         )
-                    })}
-                    {/* {BlogStructure} */}
+                    })} */}
                 </ul>
             </div>
         )

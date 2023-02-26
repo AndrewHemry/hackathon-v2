@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import BlogResults from './components/BlogResults';
+import BlogResults2 from './components/BlogResults2';
 import FilterButton from './components/FilterButton';
 import './App.css';
 
@@ -23,16 +24,38 @@ function App(props) {
     />
   ))
 
-  return (
-    <div className="App">
-      <h1>Blog Results</h1>
-      <div className='filters btn-group'>
-          {/* <FilterButton /> */}
+  if(1 == 2) {
+    return(
+      <div className='App'>
+        <h1>Blog Results</h1>
+        <div>
           {filterList}
+        </div>
+        <BlogResults />
       </div>
-      <BlogResults />
-    </div>
-  );
+    )
+  } else {
+    return(
+      <div className='App'>
+        <h1>Blog Results</h1>
+        <div>
+          {filterList}
+        </div>
+        <BlogResults2 />
+      </div>
+    )
+  }
+
+  // return (
+  //   <div className="App">
+  //     <h1>Blog Results</h1>
+  //     <div className='filters btn-group'>
+  //         {filterList}
+  //     </div>
+  //     {/* <BlogResults /> */}
+  //     <BlogResults2 />
+  //   </div>
+  // );
 }
 
 export default App;
